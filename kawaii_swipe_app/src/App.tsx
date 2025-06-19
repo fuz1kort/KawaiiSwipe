@@ -5,12 +5,14 @@ import { ProfilePage } from "./pages/ProfilePage";
 import { MatchesPage } from "./pages/MatchesPage";
 import { MessagesPage } from "./pages/MessagesPage";
 import "./App.css";
+import Onboarding from "./pages/OnboardingPage";
 
 export const App = () => {
   return (
     <Router>
       <NavBar />
       <Routes>
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/matches" element={<MatchesPage />} />
