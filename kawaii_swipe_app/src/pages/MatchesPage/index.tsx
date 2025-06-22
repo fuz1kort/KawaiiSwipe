@@ -4,12 +4,15 @@ import {LikeIcon} from "./icons/LikeIcon";
 import {DislikeIcon} from "./icons/DislikeIcon";
 import {getCharacterById, JikanCharacterData} from "../HomePage/utils/jikanCharacterData";
 import {loadData} from "../../utils/loadData";
+import {MessagesIcon} from "../../components/NavBar/icons/MessagesIcon";
+import {useNavigate} from "react-router-dom";
 
 export const MatchesPage: React.FC = () => {
     const savedMatches = JSON.parse(localStorage.getItem("matches") || "[]");
     const [matches, setMatches] = useState<JikanCharacterData[]>([]); // Используем тип JikanCharacterData
     const [loading, setLoading] = useState<boolean>(true); // Добавляем состояние загрузки
     const [error, setError] = useState<string | null>(null); // Добавляем состояние ошибки
+    const navigate = useNavigate();
 
     const handleDislike = (id: number) => {
         setMatches((prev) => prev.filter((match) => match.id !== id));
@@ -71,8 +74,8 @@ export const MatchesPage: React.FC = () => {
 
                             <div className="action-divider"/>
 
-                            <button className="action-button heart" aria-label="Like">
-                                <LikeIcon/>
+                            <button className="action-button heart" onClick={() => navigate('/messages')}>
+                                <MessagesIcon/>
                             </button>
                         </div>
                     </div>

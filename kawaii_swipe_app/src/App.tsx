@@ -36,8 +36,10 @@ export const App = () => {
                             <>
                                 <NavBar/>
                                 <Routes>
+                                    <Route path="/KawaiiSwipe" element={<HomePage/>}/>
                                     <Route path="/" element={<HomePage/>}/>
-                                    <Route path="/profile" element={<ProfilePage/>}/>
+                                    <Route path="/profile" element={<ProfilePage />} />
+                                    <Route path="/profile/:id" element={<ProfilePage />} />
                                     <Route path="/matches" element={<MatchesPage/>}/>
                                     <Route path="/messages" element={<MessagesPage/>}/>
                                     <Route path="/one-match" element={<OneMatchPage/>}/>
