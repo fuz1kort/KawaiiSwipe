@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSprings, animated as a, interpolate } from 'react-spring';
 import { useDrag } from 'react-use-gesture';
-import Slider from 'react-slick';
-import './homepage.css'
-import {getCharacterById, JikanCharacterData} from "./utils/jinkanCharacter";
-import {ReturnBackIcon} from "./icons/ReturnBackIcon";
-import {SettingsIcon} from "./icons/SettingsIcon";
-import {DiscardIcon} from "./icons/DiscardIcon";
-import {LikeIcon} from "./icons/LikeIcon";
-import {FavoritesIcon} from "./icons/FavoritesIcon";
+import './homepage.css';
+import { getCharacterById, JikanCharacterData } from './utils/jinkanCharacter';
+import { ReturnBackIcon } from './icons/ReturnBackIcon';
+import { SettingsIcon } from './icons/SettingsIcon';
+import { DiscardIcon } from './icons/DiscardIcon';
+import { LikeIcon } from './icons/LikeIcon';
+import { FavoritesIcon } from './icons/FavoritesIcon';
 import { OptimizedImage } from '../../components/OptimizedImage';
 import { imageCache } from '../../utils/imageCache';
 import { useNavigate } from 'react-router-dom';
@@ -42,36 +41,38 @@ export const HomePage = () => {
         rot: 0,
         scale: 1,
         opacity: 1,
-        config: { tension: 500, friction: 30 }
+        config: { tension: 500, friction: 30 },
     }));
 
-    function getRandomId(min = 1, max = 30000): number {
+    const getRandomId = useCallback((min = 1, max = 30000): number => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    }, []);
 
-    const preloadCharacterImages = async (count: number = 3) => {
-        const imageUrls: string[] = [];
-        
-        for (let i = 0; i < count; i++) {
-            try {
-                const randomId = getRandomId();
-                const character = await getCharacterById(randomId);
-                if (character.image) {
-                    imageUrls.push(character.image);
+    const preloadCharacterImages = useCallback(
+        async (count: number = 3) => {
+            const imageUrls: string[] = [];
+
+            for (let i = 0; i < count; i++) {
+                try {
+                    const randomId = getRandomId();
+                    const character = await getCharacterById(randomId);
+                    if (character.image) {
+                        imageUrls.push(character.image);
+                    }
+                } catch (error) {
+                    console.error('Ошибка предзагрузки персонажа:', error);
                 }
-            } catch (error) {
-                console.error('Ошибка предзагрузки персонажа:', error);
             }
-        }
-        
-        if (imageUrls.length > 0) {
-            await imageCache.preloadImages(imageUrls);
-        }
-    };
+
+            if (imageUrls.length > 0) {
+                await imageCache.preloadImages(imageUrls);
+            }
+        },
+        [getRandomId]
+    );
 
     const checkForMatch = (): boolean => {
-        const randomValue = Math.random();
-        return randomValue <= 0.4;
+        return Math.random() <= 0.4;
     };
 
     const handleMatch = () => {
@@ -80,25 +81,24 @@ export const HomePage = () => {
         }
     };
 
-    const loadNextCharacter = async () => {
-        if (isLoading || isAutoLoading) return; 
-        
+    const loadNextCharacter = useCallback(async () => {
+        if (isLoading || isAutoLoading) return;
+
         setIsLoading(true);
         const randomId = getRandomId();
-        
+
         try {
             const data = await getCharacterById(randomId);
             setCharacter(data);
             setCards([randomId]);
-            
+
             preloadCharacterImages(2);
         } catch (error) {
             console.error('Ошибка загрузки персонажа:', error);
-            setIsLoading(false);
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [isLoading, isAutoLoading, getRandomId, preloadCharacterImages]);
 
     const handleSwipeLeft = () => {
         const currentIndex = cards[0];
@@ -111,7 +111,7 @@ export const HomePage = () => {
                     scale: 1,
                     opacity: 0,
                     immediate: false,
-                    config: { friction: 30, tension: 400 }
+                    config: { friction: 30, tension: 400 },
                 };
             });
 
@@ -127,12 +127,12 @@ export const HomePage = () => {
             api.start(i => {
                 if (i !== currentIndex) return;
                 return {
-                    x: (200 + window.innerWidth),
+                    x: 200 + window.innerWidth,
                     rot: 10,
                     scale: 1,
                     opacity: 0,
                     immediate: false,
-                    config: { friction: 30, tension: 400 }
+                    config: { friction: 30, tension: 400 },
                 };
             });
 
@@ -143,7 +143,7 @@ export const HomePage = () => {
         }
     };
 
-    const bind = useDrag(({ args, down, movement: [mx, my], direction: [xDir, yDir], velocity }: DragState) => {
+    const bind = useDrag(({ args, down, movement: [mx], direction: [xDir] }: DragState) => {
         const index = args?.[0] ?? 0;
         const dir = xDir < 0 ? -1 : 1;
 
@@ -151,26 +151,17 @@ export const HomePage = () => {
             gone.add(index);
             setTimeout(() => {
                 setCards(prev => prev.filter(cardIndex => cardIndex !== index));
-                if (dir > 0) {
-                    handleMatch();
-                }
+                if (dir > 0) handleMatch();
             }, 150);
         }
 
         api.start(i => {
             if (index !== i) return;
             const isGone = gone.has(index);
-
-            const x = isGone
-                ? (200 + window.innerWidth) * dir
-                : mx;
+            const x = isGone ? (200 + window.innerWidth) * dir : mx;
             const rot = down ? mx / 100 : 0;
             const scale = down ? 1.1 : 1;
-            const opacity = isGone
-                ? 0
-                : down
-                    ? Math.max(0, 1 - Math.abs(mx) / 100)
-                    : 1;
+            const opacity = isGone ? 0 : down ? Math.max(0, 1 - Math.abs(mx) / 100) : 1;
 
             return {
                 x,
@@ -180,8 +171,8 @@ export const HomePage = () => {
                 delay: undefined,
                 config: {
                     friction: 30,
-                    tension: down ? 800 : isGone ? 400 : 500
-                }
+                    tension: down ? 800 : isGone ? 400 : 500,
+                },
             };
         });
     }) as ReturnType<typeof useDrag>;
@@ -192,7 +183,7 @@ export const HomePage = () => {
             loadNextCharacter();
             preloadCharacterImages(5);
         }
-    }, [isInitialized]);
+    }, [isInitialized, loadNextCharacter, preloadCharacterImages]);
 
     useEffect(() => {
         if (cards.length === 0 && isInitialized && !isLoading && !isAutoLoading) {
@@ -202,18 +193,17 @@ export const HomePage = () => {
                 setIsAutoLoading(false);
             }, 200);
         }
-    }, [cards.length, isInitialized, isLoading, isAutoLoading]);
+    }, [cards.length, isInitialized, isLoading, isAutoLoading, loadNextCharacter]);
 
     return (
         <div className="home-page-container">
-            
             <div className="top-bar">
                 <button className="top-btn back">
-                    <ReturnBackIcon/>
+                    <ReturnBackIcon />
                 </button>
                 <h2>Discover</h2>
                 <button className="top-btn filter">
-                    <SettingsIcon/>
+                    <SettingsIcon />
                 </button>
             </div>
             <div className="card-container">
@@ -224,15 +214,22 @@ export const HomePage = () => {
                     </div>
                 ) : (
                     cards.map((cardIndex, i) => (
-                        <a.div key={cardIndex} className="card" {...bind(cardIndex)} style={{
-                            transform: interpolate([props[i].x, props[i].rot, props[i].scale], (xVal, rotVal, scaleVal) =>
-                                `translate(-50%, -50%) translateX(${xVal}px) rotate(${rotVal}deg) scale(${scaleVal})`
-                            ),
-                            opacity: props[i].opacity
-                        }}>
-                            <OptimizedImage 
-                                src={character?.image || ''} 
-                                alt={character?.name || 'Character'} 
+                        <a.div
+                            key={cardIndex}
+                            className="card"
+                            {...bind(cardIndex)}
+                            style={{
+                                transform: interpolate(
+                                    [props[i].x, props[i].rot, props[i].scale],
+                                    (xVal, rotVal, scaleVal) =>
+                                        `translate(-50%, -50%) translateX(${xVal}px) rotate(${rotVal}deg) scale(${scaleVal})`
+                                ),
+                                opacity: props[i].opacity,
+                            }}
+                        >
+                            <OptimizedImage
+                                src={character?.image || ''}
+                                alt={character?.name || 'Character'}
                                 className="card-image"
                             />
                             <div className="card-info">
@@ -245,13 +242,13 @@ export const HomePage = () => {
             </div>
             <div className="card-buttons">
                 <button onClick={handleSwipeLeft} disabled={isLoading}>
-                    <DiscardIcon/>
+                    <DiscardIcon />
                 </button>
                 <button onClick={handleSwipeRight} disabled={isLoading}>
-                    <LikeIcon/>
+                    <LikeIcon />
                 </button>
                 <button disabled={isLoading}>
-                    <FavoritesIcon/>
+                    <FavoritesIcon />
                 </button>
             </div>
         </div>
