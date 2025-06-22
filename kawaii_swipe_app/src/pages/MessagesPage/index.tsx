@@ -2,14 +2,6 @@ import { ChatCard } from "../../intefaces/chat/chat-card";
 import ChatTile from "../../components/messages/chat-tile";
 
 export const MessagesPage = () => {
-    const chat: ChatCard = {
-        id: 1,
-        name: "Name",
-        avatar: "https://avatars.githubusercontent.com/u/113981832?v=4",
-        date: new Date(),
-        message: "Hello World!"
-    }
-
     const chats: ChatCard[] = [
         {
             id: 1,
