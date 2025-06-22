@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSprings, animated as a, interpolate } from 'react-spring';
-import { useDrag } from 'react-use-gesture';
+import React, {useCallback, useEffect, useState} from 'react';
+import {animated as a, interpolate, useSprings} from 'react-spring';
+import {useDrag} from 'react-use-gesture';
 import './homepage.css';
-import { getCharacterById, JikanCharacterData } from './utils/jinkanCharacter';
-import { ReturnBackIcon } from './icons/ReturnBackIcon';
-import { SettingsIcon } from './icons/SettingsIcon';
-import { DiscardIcon } from './icons/DiscardIcon';
-import { LikeIcon } from './icons/LikeIcon';
-import { FavoritesIcon } from './icons/FavoritesIcon';
-import { OptimizedImage } from '../../components/OptimizedImage';
-import { imageCache } from '../../utils/imageCache';
-import { useNavigate } from 'react-router-dom';
+import {getCharacterById, JikanCharacterData} from './utils/jikanCharacterData';
+import {ReturnBackIcon} from './icons/ReturnBackIcon';
+import {LogoutIcon} from './icons/LogoutIcon';
+import {DiscardIcon} from './icons/DiscardIcon';
+import {LikeIcon} from './icons/LikeIcon';
+import {FavoritesIcon} from './icons/FavoritesIcon';
+import {OptimizedImage} from '../../components/OptimizedImage';
+import {imageCache} from '../../utils/imageCache';
+import {useNavigate} from 'react-router-dom';
+import {mockMessages} from "../../mock/mockMessages";
 
 interface SpringProps {
     x: number;
@@ -41,7 +42,7 @@ export const HomePage = () => {
         rot: 0,
         scale: 1,
         opacity: 1,
-        config: { tension: 500, friction: 30 },
+        config: {tension: 500, friction: 30},
     }));
 
     const getRandomId = useCallback((min = 1, max = 30000): number => {
@@ -78,14 +79,33 @@ export const HomePage = () => {
     const handleMatch = () => {
         if (checkForMatch()) {
             const characterId = cards[0];
-            
-            // Сохраняем ID персонажа в localStorage
-            const savedMatches = JSON.parse(localStorage.getItem('matches') || '[]');
-            if (!savedMatches.includes(characterId)) {
-                savedMatches.push(characterId);
-                localStorage.setItem('matches', JSON.stringify(savedMatches));
+
+            // Генерация случайного сообщения
+            const randomMessage = mockMessages[Math.floor(Math.random() * mockMessages.length)];
+
+            // Текущая дата
+            const currentDate = new Date().toISOString(); // Сохраняем в формате ISO
+
+            // Загружаем существующие matches из localStorage
+            const savedMatches = JSON.parse(localStorage.getItem("matches") || "[]");
+
+            // Проверяем, существует ли уже этот characterId
+            if (!savedMatches.some((match: any) => match.id === characterId)) {
+                // Создаем новый объект для сохранения
+                const newMatch = {
+                    id: characterId,
+                    date: currentDate,
+                    message: randomMessage,
+                };
+
+                // Добавляем новый match в массив
+                savedMatches.push(newMatch);
+
+                // Сохраняем обновленный массив обратно в localStorage
+                localStorage.setItem("matches", JSON.stringify(savedMatches));
             }
-            
+
+            // Переходим на страницу с деталями персонажа
             navigate(`/one-match?characterId=${characterId}`);
         }
     };
@@ -120,7 +140,7 @@ export const HomePage = () => {
                     scale: 1,
                     opacity: 0,
                     immediate: false,
-                    config: { friction: 30, tension: 400 },
+                    config: {friction: 30, tension: 400},
                 };
             });
 
@@ -141,7 +161,7 @@ export const HomePage = () => {
                     scale: 1,
                     opacity: 0,
                     immediate: false,
-                    config: { friction: 30, tension: 400 },
+                    config: {friction: 30, tension: 400},
                 };
             });
 
@@ -152,7 +172,7 @@ export const HomePage = () => {
         }
     };
 
-    const bind = useDrag(({ args, down, movement: [mx], direction: [xDir] }: DragState) => {
+    const bind = useDrag(({args, down, movement: [mx], direction: [xDir]}: DragState) => {
         const index = args?.[0] ?? 0;
         const dir = xDir < 0 ? -1 : 1;
 
@@ -204,15 +224,34 @@ export const HomePage = () => {
         }
     }, [cards.length, isInitialized, isLoading, isAutoLoading, loadNextCharacter]);
 
+    // Функция для выхода из системы
+    const handleLogout = () => {
+        // Удаляем данные из localStorage
+        localStorage.removeItem("user");
+        localStorage.removeItem("matches");
+
+        // Перенаправляем на страницу входа
+        navigate("/login");
+    };
+
+    const handleGoToMyProfile = () => {
+        navigate("/profile");
+    };
+
+    // Функция для перехода на страницу профиля
+    const handleGoToProfile = () => {
+        navigate(`/profile/${character?.id}`); // Передаем id в URL
+    };
+
     return (
         <div className="home-page-container">
             <div className="top-bar">
-                <button className="top-btn back">
+                <button className="top-btn back" onClick={handleGoToMyProfile}>
                     <ReturnBackIcon />
                 </button>
                 <h2>Discover</h2>
-                <button className="top-btn filter">
-                    <SettingsIcon />
+                <button className="top-btn filter" onClick={handleLogout}>
+                    <LogoutIcon />
                 </button>
             </div>
             <div className="card-container">
@@ -250,13 +289,13 @@ export const HomePage = () => {
                 )}
             </div>
             <div className="card-buttons">
-                <button onClick={handleSwipeLeft} disabled={isLoading} >
+                <button onClick={handleSwipeLeft} disabled={isLoading}>
                     <DiscardIcon/>
                 </button>
                 <button onClick={handleSwipeRight} disabled={isLoading}>
-                    <LikeIcon />
+                    <LikeIcon/>
                 </button>
-                <button disabled={isLoading}>
+                <button disabled={isLoading} onClick={handleGoToProfile}>
                     <FavoritesIcon />
                 </button>
             </div>

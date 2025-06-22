@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./oneMatchPage.css";
 import {HeartIcon} from "./icons/HeartIcon";
-import { getCharacterById, JikanCharacterData } from "../HomePage/utils/jinkanCharacter";
+import { getCharacterById, JikanCharacterData } from "../HomePage/utils/jikanCharacterData";
 import { OptimizedImage } from "../../components/OptimizedImage";
-import myphoto from './src/myphoto.jpg'
+import myphoto from '../../assets/images/myphoto.jpg'
 
 export const OneMatchPage = () => {
     const [searchParams] = useSearchParams();

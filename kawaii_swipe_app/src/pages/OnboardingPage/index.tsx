@@ -55,7 +55,7 @@ const Onboarding: React.FC = () => {
       </div>
       <div className="controls">
         <button onClick={handlePrev} disabled={currentSlide === 0}>
-          Previous
+          Назад
         </button>
         <div className="dots">
           {slides.map((_, index) => (
@@ -67,19 +67,13 @@ const Onboarding: React.FC = () => {
           ))}
         </div>
         <button onClick={handleNext} disabled={currentSlide === slides.length - 1}>
-          Next
+          Вперед
         </button>
       </div>
       <div className="actions">
         <button className="create-account" onClick={() => navigate('/register')}>
-          Создать аккаунт
+          Войти
         </button>
-        <p>
-          Уже есть аккаунт?{' '}
-          <a href="/login" className="sign-in">
-            Войти
-          </a>
-        </p>
       </div>
     </div>
   );
