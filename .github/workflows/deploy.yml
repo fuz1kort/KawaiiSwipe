@@ -33,7 +33,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.ACCESS_GITHUB_TOKEN }}
           publish_dir: kawaii_swipe_app/build  
           publish_branch: gh-pages
           force_orphan: true
