@@ -23,12 +23,14 @@ jobs:
           cache-dependency-path: kawaii_swipe_app/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: kawaii_swipe_app   
+        run: | 
+          cd kawaii_swipe_app 
+          npm ci
 
       - name: Build production bundle
-        run: npm run build
-        working-directory: kawaii_swipe_app
+        run: | 
+          cd kawaii_swipe_app  
+          npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
