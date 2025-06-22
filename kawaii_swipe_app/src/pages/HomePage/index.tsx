@@ -76,7 +76,16 @@ export const HomePage = () => {
 
     const handleMatch = () => {
         if (checkForMatch()) {
-            navigate('/matches');
+            const characterId = cards[0];
+            
+            // Сохраняем ID персонажа в localStorage
+            const savedMatches = JSON.parse(localStorage.getItem('matches') || '[]');
+            if (!savedMatches.includes(characterId)) {
+                savedMatches.push(characterId);
+                localStorage.setItem('matches', JSON.stringify(savedMatches));
+            }
+            
+            navigate(`/one-match?characterId=${characterId}`);
         }
     };
 
@@ -244,7 +253,7 @@ export const HomePage = () => {
                 )}
             </div>
             <div className="card-buttons">
-                <button onClick={handleSwipeLeft} disabled={isLoading}>
+                <button onClick={handleSwipeLeft} disabled={isLoading} >
                     <DiscardIcon/>
                 </button>
                 <button onClick={handleSwipeRight} disabled={isLoading}>

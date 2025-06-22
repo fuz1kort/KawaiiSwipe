@@ -3,5 +3,11 @@
   --color-background-nav: #f8f8f8;
   --color-border-top: #eeeeee;
   --color-inactive: #9e9e9e;
-  --color-buttons-border: #E8E6EA
+  --color-buttons-border: #E8E6EA;
+  --color-shade: rgba(0, 0, 0, 0.15);
+  --color-background-white: #ffff;
+  --color-chatting-button-hover: #d81b60;
+  --color-keep-swiping-button: #ffe4ec;
+  --color-keep-swiping-button-hover: #ffd6e8;
+  --color-text-secondary:  #666;
 }

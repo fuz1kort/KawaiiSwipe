@@ -220,6 +220,10 @@
     margin-bottom: 60px;
 }
 
+.card-buttons__likebutton {
+    color: #ffffff;
+}
+
 .card-buttons button {
     border: none;
     border-radius: 50%;
