@@ -36,4 +36,3 @@ jobs:
           personal_token: ${{ secrets.ACCESS_GITHUB_TOKEN }}
           publish_dir: kawaii_swipe_app/build  
           publish_branch: gh-pages
-          force_orphan: true
