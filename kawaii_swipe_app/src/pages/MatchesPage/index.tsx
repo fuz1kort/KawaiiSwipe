@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import "./index.css";
-import {LikeIcon} from "./icons/LikeIcon";
 import {DislikeIcon} from "./icons/DislikeIcon";
 import {getCharacterById, JikanCharacterData} from "../HomePage/utils/jikanCharacterData";
 import {loadData} from "../../utils/loadData";
