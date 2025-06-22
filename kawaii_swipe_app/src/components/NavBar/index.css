@@ -9,6 +9,7 @@
   background: var(--color-background-nav);
   padding: 12px 0;
   border-top: 1px solid var(--color-border-top);
+  z-index: 100;
 }
 
 .nav-item {
