@@ -1,6 +1,7 @@
 const BASE_URL = "https://api.jikan.moe/v4";
 
 export interface JikanCharacterData {
+    id: number;
     name: string;
     image: string;
     title: string;
@@ -21,6 +22,7 @@ export async function getCharacterById(id: number): Promise<JikanCharacterData> 
     }
 
     return {
+        id,
         name: data.name,
         image,
         title

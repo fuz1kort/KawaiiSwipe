@@ -1,0 +1,86 @@
+/* Контейнер страницы */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f3f4f6; /* Светло-серый фон для контейнера */
+}
+
+/* Контейнер формы */
+.login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Заголовок */
+.login-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Форма */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Группа ввода */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.input-group input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Кнопка */
+.login-button {
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+/* Отступы для мелких экранов */
+@media (max-width: 600px) {
+    .login-container {
+        padding: 30px;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+    }
+}
