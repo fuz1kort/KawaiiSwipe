@@ -25,6 +25,7 @@ export const MessagesPage = () => {
         };
 
         fetchData();
+        // eslint-disable-next-line
     }, []);
 
     // Генерация чатов на основе данных из localStorage и matches

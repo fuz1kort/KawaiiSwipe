@@ -42,6 +42,7 @@ export const MatchesPage: React.FC = () => {
         };
 
         fetchData();
+        // eslint-disable-next-line
     }, []);
 
     if (loading) {
