@@ -13,7 +13,7 @@ import {JSX} from "react";
 const AuthWrapper = ({children}: { children: JSX.Element }) => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     if (!user.nickname || !user.avatar) {
-        return <Navigate to="/onboarding" replace/>;
+        return <Navigate to="/login" replace/>;
     }
     return children;
 };
