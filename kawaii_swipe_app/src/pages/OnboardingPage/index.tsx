@@ -71,7 +71,7 @@ const Onboarding: React.FC = () => {
         </button>
       </div>
       <div className="actions">
-        <button className="create-account" onClick={() => navigate('/register')}>
+        <button className="create-account" onClick={() => navigate('/login')}>
           Войти
         </button>
       </div>
