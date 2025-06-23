@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/KawaiiSwipe/static/css/main.5112a2ad.css",
-    "main.js": "/KawaiiSwipe/static/js/main.2cf42169.js",
+    "main.js": "/KawaiiSwipe/static/js/main.a4f4bef4.js",
     "static/media/onboarding2.jpg": "/KawaiiSwipe/static/media/onboarding2.c2a4675e339cfae1dbd1.jpg",
     "static/media/onboarding1.jpg": "/KawaiiSwipe/static/media/onboarding1.6918b733a55a5594b5be.jpg",
     "static/media/myphoto.jpg": "/KawaiiSwipe/static/media/myphoto.3db6b4a5282dce964b7a.jpg",
     "static/media/onboarding3.jpg": "/KawaiiSwipe/static/media/onboarding3.8d6a39bd6354a66793e1.jpg",
     "index.html": "/KawaiiSwipe/index.html",
     "main.5112a2ad.css.map": "/KawaiiSwipe/static/css/main.5112a2ad.css.map",
-    "main.2cf42169.js.map": "/KawaiiSwipe/static/js/main.2cf42169.js.map"
+    "main.a4f4bef4.js.map": "/KawaiiSwipe/static/js/main.a4f4bef4.js.map"
   },
   "entrypoints": [
     "static/css/main.5112a2ad.css",
-    "static/js/main.2cf42169.js"
+    "static/js/main.a4f4bef4.js"
   ]
 }
