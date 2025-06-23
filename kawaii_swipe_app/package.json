@@ -2,7 +2,7 @@
   "name": "kawaii_swipe_app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://fuz1kort.github.io/KawaiiSwipe",
+  "homepage": "https://fuz1kort.github.io/",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
